@@ -1,18 +1,17 @@
 #include "type.h"
+#include "math.h"
+#include  "layout.h"
+#include "linkedlist.h"
 
-typedef struct LinkedList
-{
-    usize *head;
-} LinkedList;
-
-LinkedList new()
+LinkedList linkedlist_new()
 {
     LinkedList ll = {.head = NULL};
+    return ll;
 }
 
-bool is_empty(LinkedList *ll)
+bool linkedlist_is_empty(LinkedList ll)
 {
-    if (ll->head == NULL)
+    if (ll.head == NULL)
     {
         return true;
     }
@@ -22,13 +21,13 @@ bool is_empty(LinkedList *ll)
     }
 }
 
-void push(LinkedList *ll, usize *item)
+void linkedlist_push(LinkedList *ll, usize *item)
 {
     *item = ll->head;
     ll->head = item;
 }
 
-usize *pop(LinkedList *ll)
+usize *linkedlist_pop(LinkedList *ll)
 {
     switch (is_empty(ll))
     {
@@ -42,11 +41,6 @@ usize *pop(LinkedList *ll)
         return NULL;
     }
 }
-
-typedef struct Iter
-{
-    LinkedList *curr;
-} Iter;
 
 Iter iter(LinkedList ll)
 {
@@ -72,12 +66,6 @@ LinkedList iter_next(Iter *it)
     return ll;
 }
 
-typedef struct ListNode
-{
-    usize *prev;
-    usize *curr;
-} ListNode;
-
 usize *list_node_pop(ListNode ln)
 {
     *ln.prev = *ln.curr;
@@ -88,11 +76,6 @@ usize *list_node_value(ListNode ln)
 {
     return ln.curr;
 }
-
-typedef struct IterMut
-{
-    ListNode ln;
-} IterMut;
 
 IterMut iter_mut(LinkedList ll)
 {
@@ -109,7 +92,7 @@ bool iter_mut_has_next(const IterMut *it)
 
 ListNode iter_mut_next(IterMut *it)
 {
-    if (!list_iterator_has_next(it))
+    if (!iter_mut_has_next(it))
     {
         ListNode ll = {.prev = NULL,
                        .curr = NULL};
